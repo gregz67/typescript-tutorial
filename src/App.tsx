@@ -1,24 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import './App.css';
 import InputField from './components/InputField';
 import TodoList from './components/TodoList';
-import { Todo } from './model';
-import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { TodosState, TodoReducer } from './model';
+//import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
 const App: React.FC = () => {
-  const [todo, setTodo] = useState<string>("");
+  const initialState: TodosState = {
+    todos: [],
+    completedTodos: []
+  };
+
+  const [state, dispatch] = useReducer(TodoReducer, initialState);
+  const [todoText, setTodoText] = useState<string>("");
+  /**
+   * 
   const [todos, setTodos] = useState<Todo[]>([]);
   const [completedTodos, setCompletedTodos] = useState<Todo[]>([]);
+   */
 
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (todo) {
-      setTodos([...todos, {id: Date.now(), todo, isDone: false}]);
-      setTodo("");
-    }
+    dispatch({ type: "add", payload: todoText});
+    setTodoText("");
   };
 
+  /**
+   * 
   const onDragEnd = (result:DropResult) => {
     const {source, destination} = result;
     if (!destination) return;
@@ -49,14 +57,17 @@ const App: React.FC = () => {
     setTodos(active);
 
   }
+   */
 
   return (
+    /**
+     * 
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="App">
-        <span className="heading">Taskify</span>
+        <span className="heading">Todoist</span>
         <InputField
-          todo={todo}
-          setTodo={setTodo}
+          todoText={todoText}
+          setTodoText={setTodoText}
           handleAdd={handleAdd}/>
         <TodoList
           todos={todos}
@@ -66,6 +77,18 @@ const App: React.FC = () => {
         />
       </div>
     </DragDropContext>
+     */
+    <div className="App">
+      <span className="heading">Todoist</span>
+      <InputField
+        todoText={todoText}
+        setTodoText={setTodoText}
+        handleAdd={handleAdd}/>
+      <TodoList
+        todos={state.todos}
+        completedTodos={state.completedTodos}
+      />
+    </div>
   )
 }
 
