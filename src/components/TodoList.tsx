@@ -7,9 +7,11 @@ import TodoItem from './TodoItem';
 interface Props {
   todos: Todo[];
   completedTodos: Todo[];
+  handleDelete: (id: number) => void;
+  handleEdit: (editTodo: Todo) => void;
 }
 
-const TodoList: React.FC<Props> = ({todos, completedTodos}) => {
+const TodoList: React.FC<Props> = ({todos, completedTodos, handleDelete, handleEdit}) => {
   return (
     <div className="container">
 {/*       <Droppable droppableId='TodosList'>
@@ -28,6 +30,8 @@ const TodoList: React.FC<Props> = ({todos, completedTodos}) => {
                   todos={todos}
                   key={todo.id}
                   otherTodos={completedTodos}
+                  handleDelete={handleDelete}
+                  handleEdit={handleEdit}
                 />
               ))
             }
@@ -51,6 +55,8 @@ const TodoList: React.FC<Props> = ({todos, completedTodos}) => {
                   todos={completedTodos}
                   key={todo.id}
                   otherTodos={todos}
+                  handleDelete={handleDelete}
+                  handleEdit={handleEdit}
                 />
               ))
             }

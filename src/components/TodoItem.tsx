@@ -9,14 +9,13 @@ type Props = {
   todo: Todo,
   todos: Todo[],
   otherTodos: Todo[],
+  handleDelete: (id: number) => void,
+  handleEdit: (editTodo: Todo) => void,
 };
 
-const TodoItem: React.FC<Props> = ( {index, todo, todos, otherTodos}) => {
-  const [edit, setEdit] = useState<boolean>(false);
-  /**
-   * 
-  const [editTodo, setEditTodo] = useState<string>(todo.text);
-   */
+const TodoItem: React.FC<Props> = ( {index, todo, todos, otherTodos, handleDelete, handleEdit}) => {
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const [editText, setEditText] = useState<string>(todo.text);
 
   /**
    * 
@@ -33,58 +32,38 @@ const TodoItem: React.FC<Props> = ( {index, todo, todos, otherTodos}) => {
   };
    */
 
-  /**
-   * 
-  const handleDelete = (id: number) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-  };
-
-   */
-  
-  /**
-   * 
-  const handleEdit = (e:React.FormEvent, id: number) => {
-    e.preventDefault();
-    setTodos(todos.map((todo) =>
-      todo.id === id ? { ...todo, todo: editTodo } : todo
-    )); 
-    setEdit(false);
-  };
-   */
-
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     inputRef.current?.focus();
-  }, [edit]);
+  }, [editMode]);
   
 
   return (
         <form
           className="todo__item"
-          onSubmit={(e) => { /* handleEdit(e, todo.id) */ } }
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleEdit({ ...todo, text: editText});
+            setEditMode(false);
+          }}
           >
           {
-            edit ? (
+            editMode ? (
               <input
               ref={inputRef}
-              value=""
-//                value={editTodo}
-              onChange={(e) => { /* setEditTodo(e.target.value) */ }}
+              value={editText}
+              onChange={(e) => { setEditText(e.target.value) }}
               className="todo__item--text"
               />
             ):
               <span className = {`todo__item--text ${todo.isDone ? "done" : ""}`}>{todo.text}</span>
             }
           <div>
-            <span className="icon" onClick= {() => {
-              if (!edit && !todo.isDone) {
-                setEdit(!edit);
-              }
-            }}>
+            <span className="icon" onClick= {() => { setEditMode(!editMode) }}>
               <AiFillEdit />
             </span>
-            <span className="icon" onClick={() => { /* handleDelete(todo.id) */ }}>
+            <span className="icon" onClick={() => { handleDelete(todo.id) }}>
               <AiFillDelete />
             </span>
             <span className="icon" onClick={() => { /* handleDone(todo.id) */ }}>

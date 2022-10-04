@@ -1,8 +1,8 @@
-import React, { useState, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import './App.css';
 import InputField from './components/InputField';
 import TodoList from './components/TodoList';
-import { TodosState, TodoReducer } from './model';
+import { Todo, TodosState, TodoReducer } from './model';
 //import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
 const App: React.FC = () => {
@@ -12,18 +12,16 @@ const App: React.FC = () => {
   };
 
   const [state, dispatch] = useReducer(TodoReducer, initialState);
-  const [todoText, setTodoText] = useState<string>("");
-  /**
-   * 
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const [completedTodos, setCompletedTodos] = useState<Todo[]>([]);
-   */
 
-  const handleAdd = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleAdd = (todoText: string) => {
     dispatch({ type: "add", payload: todoText});
-    setTodoText("");
   };
+  const handleDelete = (id: number) => {
+    dispatch({ type: "delete", payload: id});
+  };
+  const handleEdit = (editTodo: Todo) => {
+    dispatch({ type: "edit", payload: editTodo });
+  }
 
   /**
    * 
@@ -81,12 +79,12 @@ const App: React.FC = () => {
     <div className="App">
       <span className="heading">Todoist</span>
       <InputField
-        todoText={todoText}
-        setTodoText={setTodoText}
         handleAdd={handleAdd}/>
       <TodoList
         todos={state.todos}
         completedTodos={state.completedTodos}
+        handleDelete={handleDelete}
+        handleEdit={handleEdit}
       />
     </div>
   )

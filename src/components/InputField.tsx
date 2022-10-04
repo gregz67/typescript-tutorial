@@ -1,19 +1,20 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import "./styles.css";
 
 interface Props {
-  todoText: string;
-  setTodoText: React.Dispatch<React.SetStateAction<string>>
-  handleAdd: (e: React.FormEvent) => void;
+  handleAdd: (todoText: string) => void;
 }
 
-const InputField: React.FC<Props> = ({ todoText, setTodoText, handleAdd }) => {
+const InputField: React.FC<Props> = ({ handleAdd }) => {
+  const [todoText, setTodoText] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
   return (
     <form
       className="input"
       onSubmit={(e) => {
-        handleAdd(e);
+        e.preventDefault();
+        handleAdd(todoText);
+        setTodoText("");
         inputRef.current?.blur();
       }}
     >
