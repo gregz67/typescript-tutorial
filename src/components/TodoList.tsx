@@ -1,5 +1,5 @@
 import React from 'react';
-//import { Droppable } from 'react-beautiful-dnd';
+import { Droppable } from 'react-beautiful-dnd';
 import { Todo } from '../model';
 import "./styles.css";
 import TodoItem from './TodoItem';
@@ -14,13 +14,13 @@ interface Props {
 const TodoList: React.FC<Props> = ({todos, completedTodos, handleDelete, handleEdit}) => {
   return (
     <div className="container">
-{/*       <Droppable droppableId='TodosList'>
+      <Droppable droppableId='TodosList'>
         {(provided, snapshot) => (
           <div
             className= {`todos ${snapshot.isDraggingOver ? "dragactive": ""}`}
             ref={provided.innerRef}
             {...provided.droppableProps}
-          > */}
+          >
             <span className="todos__heading">Active Tasks</span>
             {
               todos.map((todo, index) => (
@@ -35,7 +35,7 @@ const TodoList: React.FC<Props> = ({todos, completedTodos, handleDelete, handleE
                 />
               ))
             }
-{/*             {provided.placeholder}
+            {provided.placeholder}
           </div>
         )}
        </Droppable>
@@ -45,7 +45,7 @@ const TodoList: React.FC<Props> = ({todos, completedTodos, handleDelete, handleE
             className= {`todos remove ${snapshot.isDraggingOver ? "dragcomplete": ""}`}
             ref={provided.innerRef}
             {...provided.droppableProps}
-          >  */}
+          >
             <span className="todos__heading">Completed Tasks</span>
             {
               completedTodos.map((todo, index) => (
@@ -60,10 +60,10 @@ const TodoList: React.FC<Props> = ({todos, completedTodos, handleDelete, handleE
                 />
               ))
             }
-{/*              {provided.placeholder}
+            {provided.placeholder}
           </div>
         )}
-      </Droppable> */}
+      </Droppable>
     </div> 
   )};
 

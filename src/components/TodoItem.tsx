@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Todo } from '../model';
 import { AiFillEdit, AiFillDelete, AiOutlineCheck } from "react-icons/ai";
 import "./styles.css";
-//import { Draggable } from 'react-beautiful-dnd';
+import { Draggable } from 'react-beautiful-dnd';
 
 type Props = {
   index: number,
@@ -37,76 +37,41 @@ const TodoItem: React.FC<Props> = ( {index, todo, todos, otherTodos, handleDelet
   useEffect(() => {
     inputRef.current?.focus();
   }, [editMode]);
-  
 
   return (
-        <form
-          className="todo__item"
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleEdit({ ...todo, text: editText});
-            setEditMode(false);
-          }}
-          >
-          {
-            editMode ? (
-              <input
-              ref={inputRef}
-              value={editText}
-              onChange={(e) => { setEditText(e.target.value) }}
-              className="todo__item--text"
-              />
-            ):
-              <span className = {`todo__item--text ${todo.isDone ? "done" : ""}`}>{todo.text}</span>
-            }
-          <div>
-            <span className="icon" onClick= {() => { setEditMode(!editMode) }}>
-              <AiFillEdit />
-            </span>
-            <span className="icon" onClick={() => { handleDelete(todo.id) }}>
-              <AiFillDelete />
-            </span>
-            <span className="icon" onClick={() => { /* handleDone(todo.id) */ }}>
-              <AiOutlineCheck />
-            </span>
-          </div>
-        </form>
-      )
-    }
-/*     <Draggable draggableId={todo.id.toString()} index={index}>
+    <Draggable draggableId={todo.id.toString()} index={index}>
       {
         (provided, snapshot) => (
           <form
-            className={`todo__item ${snapshot.isDragging ? "drag" : ""}`}
-            onSubmit={(e) => handleEdit(e, todo.id) }
+            className="todo__item"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleEdit({ ...todo, text: editText});
+              setEditMode(false);
+            }}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
             >
             {
-              edit ? (
+              editMode ? (
                 <input
                 ref={inputRef}
-                value=""
-//                value={editTodo}
-                onChange={(e) => setEditTodo(e.target.value) }
+                value={editText}
+                onChange={(e) => { setEditText(e.target.value) }}
                 className="todo__item--text"
                 />
               ):
-               <span className = {`todo__item--text ${todo.isDone ? "done" : ""}`}>{todo.text}</span>
+                <span className = {`todo__item--text ${todo.isDone ? "done" : ""}`}>{todo.text}</span>
               }
             <div>
-              <span className="icon" onClick= {() => {
-                if (!edit && !todo.isDone) {
-                  setEdit(!edit);
-                }
-              }}>
+              <span className="icon" onClick= {() => { setEditMode(!editMode) }}>
                 <AiFillEdit />
               </span>
-              <span className="icon" onClick={() => handleDelete(todo.id) }>
+              <span className="icon" onClick={() => { handleDelete(todo.id) }}>
                 <AiFillDelete />
               </span>
-              <span className="icon" onClick={() => handleDone(todo.id) }>
+              <span className="icon" onClick={() => { /* handleDone(todo.id) */ }}>
                 <AiOutlineCheck />
               </span>
             </div>
@@ -115,6 +80,6 @@ const TodoItem: React.FC<Props> = ( {index, todo, todos, otherTodos, handleDelet
       }
     </Draggable> 
   )
-}; */
+}; 
 
 export default TodoItem;
