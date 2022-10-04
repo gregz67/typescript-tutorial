@@ -7,53 +7,30 @@ import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
 const App: React.FC = () => {
   const initialState: TodosState = {
-    todos: [],
-    completedTodos: []
+    todos: []
   };
 
   const [state, dispatch] = useReducer(TodoReducer, initialState);
 
   const handleAdd = (todoText: string) => {
-    dispatch({ type: "add", payload: todoText});
+    dispatch({ type: "add", payload: todoText });
   };
-  const handleDelete = (id: number) => {
-    dispatch({ type: "delete", payload: id});
+  const handleDelete = (id: string) => {
+    dispatch({ type: "delete", payload: id });
   };
+  const handleDone = (id: string) => {
+    dispatch({ type: "done", payload: id });
+  }
   const handleEdit = (editTodo: Todo) => {
     dispatch({ type: "edit", payload: editTodo });
   }
 
   const onDragEnd = (result:DropResult) => {
-    const {source, destination} = result;
+    const {source, destination, draggableId} = result;
     if (!destination) return;
-    if (destination.droppableId === source.droppableId && destination.index === source.index) return;
-    /**
-     * 
-    let
-      active: Todo[] = state.todos,
-      draggedTodoItem: Todo,
-      complete: Todo[] = state.completedTodos;
-    
-    if (source.droppableId === "TodosList") {
-      draggedTodoItem = active[source.index];
-      active.splice(source.index, 1);
-    } else {
-      draggedTodoItem = complete[source.index];
-      complete.splice(source.index, 1);
-    }
+    if (destination.droppableId === source.droppableId) return;
 
-
-    if (destination.droppableId === "TodosList") {
-      draggedTodoItem.isDone = false;
-      active.splice(destination.index, 0, draggedTodoItem);
-    } else {
-      draggedTodoItem.isDone = true;
-      complete.splice(destination.index, 0, draggedTodoItem);
-    }
-
-    setCompletedTodos(complete);
-    setTodos(active);
-     */
+    dispatch({ type: "done", payload: draggableId});
   }
 
   return (
@@ -64,8 +41,8 @@ const App: React.FC = () => {
           handleAdd={handleAdd}/>
         <TodoList
           todos={state.todos}
-          completedTodos={state.completedTodos}
           handleDelete={handleDelete}
+          handleDone={handleDone}
           handleEdit={handleEdit}
         />
       </div>

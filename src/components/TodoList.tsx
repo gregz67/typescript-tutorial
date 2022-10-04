@@ -6,12 +6,12 @@ import TodoItem from './TodoItem';
 
 interface Props {
   todos: Todo[];
-  completedTodos: Todo[];
-  handleDelete: (id: number) => void;
+  handleDelete: (id: string) => void;
+  handleDone: (id: string) => void;
   handleEdit: (editTodo: Todo) => void;
 }
 
-const TodoList: React.FC<Props> = ({todos, completedTodos, handleDelete, handleEdit}) => {
+const TodoList: React.FC<Props> = ({todos, handleDelete, handleDone, handleEdit}) => {
   return (
     <div className="container">
       <Droppable droppableId='TodosList'>
@@ -23,14 +23,15 @@ const TodoList: React.FC<Props> = ({todos, completedTodos, handleDelete, handleE
           >
             <span className="todos__heading">Active Tasks</span>
             {
-              todos.map((todo, index) => (
+              todos
+              .filter((todo) => !todo.isDone)
+              .map((todo, index) => (
                 <TodoItem
                   index={index}
                   todo={todo}
-                  todos={todos}
                   key={todo.id}
-                  otherTodos={completedTodos}
                   handleDelete={handleDelete}
+                  handleDone={handleDone}
                   handleEdit={handleEdit}
                 />
               ))
@@ -48,14 +49,15 @@ const TodoList: React.FC<Props> = ({todos, completedTodos, handleDelete, handleE
           >
             <span className="todos__heading">Completed Tasks</span>
             {
-              completedTodos.map((todo, index) => (
+              todos
+              .filter((todo) => todo.isDone)
+              .map((todo, index) => (
                 <TodoItem
                   index={index}
                   todo={todo}
-                  todos={completedTodos}
                   key={todo.id}
-                  otherTodos={todos}
                   handleDelete={handleDelete}
+                  handleDone={handleDone}
                   handleEdit={handleEdit}
                 />
               ))

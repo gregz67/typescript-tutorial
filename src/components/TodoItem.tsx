@@ -7,31 +7,14 @@ import { Draggable } from 'react-beautiful-dnd';
 type Props = {
   index: number,
   todo: Todo,
-  todos: Todo[],
-  otherTodos: Todo[],
-  handleDelete: (id: number) => void,
+  handleDelete: (id: string) => void,
+  handleDone: (id: string) => void,
   handleEdit: (editTodo: Todo) => void,
 };
 
-const TodoItem: React.FC<Props> = ( {index, todo, todos, otherTodos, handleDelete, handleEdit}) => {
+const TodoItem: React.FC<Props> = ( {index, todo, handleDelete, handleDone, handleEdit}) => {
   const [editMode, setEditMode] = useState<boolean>(false);
   const [editText, setEditText] = useState<string>(todo.text);
-
-  /**
-   * 
-   * @param id 
-  const handleDone = (id: number) => {
-    todos.forEach((todo: Todo, index: number) => {
-      if (todo.id === id) {
-        todos.splice(index, 1);
-        otherTodos.splice(0, 0, {...todo, isDone: !todo.isDone});
-      }
-    });
-    setTodos(todos);
-    setOtherTodos(otherTodos);
-  };
-   */
-
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -39,7 +22,7 @@ const TodoItem: React.FC<Props> = ( {index, todo, todos, otherTodos, handleDelet
   }, [editMode]);
 
   return (
-    <Draggable draggableId={todo.id.toString()} index={index}>
+    <Draggable draggableId={todo.id} index={index} key={todo.id}>
       {
         (provided, snapshot) => (
           <form
@@ -71,7 +54,7 @@ const TodoItem: React.FC<Props> = ( {index, todo, todos, otherTodos, handleDelet
               <span className="icon" onClick={() => { handleDelete(todo.id) }}>
                 <AiFillDelete />
               </span>
-              <span className="icon" onClick={() => { /* handleDone(todo.id) */ }}>
+              <span className="icon" onClick={() => { handleDone(todo.id) }}>
                 <AiOutlineCheck />
               </span>
             </div>
