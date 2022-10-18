@@ -1,29 +1,33 @@
-import React from 'react';
-import { Droppable } from 'react-beautiful-dnd';
-import { Todo } from '../model';
-import "./styles.css";
-import TodoItem from './TodoItem';
+import React from "react"
+import { Droppable } from "react-beautiful-dnd"
+import { Todo } from "../model"
+import "./styles.css"
+import TodoItem from "./TodoItem"
 
 interface Props {
-  todos: Todo[];
-  handleDelete: (id: string) => void;
-  handleDone: (id: string) => void;
-  handleEdit: (editTodo: Todo) => void;
+  todos: Todo[]
+  handleDelete: (id: string) => void
+  handleDone: (id: string) => void
+  handleEdit: (editTodo: Todo) => void
 }
 
-const TodoList: React.FC<Props> = ({todos, handleDelete, handleDone, handleEdit}) => {
+const TodoList: React.FC<Props> = ({
+  todos,
+  handleDelete,
+  handleDone,
+  handleEdit,
+}) => {
   return (
     <div className="container">
-      <Droppable droppableId='TodosList'>
+      <Droppable droppableId="TodosList">
         {(provided, snapshot) => (
           <div
-            className= {`todos ${snapshot.isDraggingOver ? "dragactive": ""}`}
+            className={`todos ${snapshot.isDraggingOver ? "dragactive" : ""}`}
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
             <span className="todos__heading">Active Tasks</span>
-            {
-              todos
+            {todos
               .filter((todo) => !todo.isDone)
               .map((todo, index) => (
                 <TodoItem
@@ -34,22 +38,22 @@ const TodoList: React.FC<Props> = ({todos, handleDelete, handleDone, handleEdit}
                   handleDone={handleDone}
                   handleEdit={handleEdit}
                 />
-              ))
-            }
+              ))}
             {provided.placeholder}
           </div>
         )}
-       </Droppable>
-      <Droppable droppableId='TodosRemove'>
+      </Droppable>
+      <Droppable droppableId="TodosRemove">
         {(provided, snapshot) => (
           <div
-            className= {`todos remove ${snapshot.isDraggingOver ? "dragcomplete": ""}`}
+            className={`todos remove ${
+              snapshot.isDraggingOver ? "dragcomplete" : ""
+            }`}
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
             <span className="todos__heading">Completed Tasks</span>
-            {
-              todos
+            {todos
               .filter((todo) => todo.isDone)
               .map((todo, index) => (
                 <TodoItem
@@ -60,13 +64,13 @@ const TodoList: React.FC<Props> = ({todos, handleDelete, handleDone, handleEdit}
                   handleDone={handleDone}
                   handleEdit={handleEdit}
                 />
-              ))
-            }
+              ))}
             {provided.placeholder}
           </div>
         )}
       </Droppable>
-    </div> 
-  )};
+    </div>
+  )
+}
 
-export default TodoList;
+export default TodoList
