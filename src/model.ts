@@ -6,7 +6,7 @@ export interface Todo {
 export interface TodosState {
   todos: Todo[]
 }
-type TodoActions =
+export type TodoActions =
   | { type: "add"; payload: string }
   | { type: "edit"; payload: Todo }
   | { type: "delete"; payload: string }
@@ -42,7 +42,5 @@ export const TodoReducer = (
           todo.id === action.payload ? { ...todo, isDone: !todo.isDone } : todo
         ),
       }
-    default:
-      return state
   }
 }

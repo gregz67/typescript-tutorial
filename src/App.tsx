@@ -36,7 +36,7 @@ const App: React.FC = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="App">
-        <span className="heading">Todoist</span>
+        <span className="heading">Todo List</span>
         <InputField handleAdd={handleAdd} />
         <TodoList
           todos={state.todos}

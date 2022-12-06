@@ -20,6 +20,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "coverage": "npm test -- --coverage --watchAll=false",
     "eject": "react-scripts eject"
   },
   "browserslist": {
@@ -77,5 +78,12 @@
   },
   "prettier": {
     "semi": false
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/index.tsx",
+      "!src/react-app-env.d.ts"
+    ]
   }
 }
