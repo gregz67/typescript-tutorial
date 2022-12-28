@@ -40,6 +40,7 @@ const TodoItem: React.FC<Props> = ({
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
+          aria-label="todo item"
         >
           {editMode ? (
             <input
@@ -58,6 +59,7 @@ const TodoItem: React.FC<Props> = ({
           <div>
             <span
               className="icon"
+              aria-label="edit"
               onClick={() => {
                 setEditMode(!editMode)
               }}
@@ -66,6 +68,7 @@ const TodoItem: React.FC<Props> = ({
             </span>
             <span
               className="icon"
+              aria-label="delete"
               onClick={() => {
                 handleDelete(todo.id)
               }}
@@ -74,6 +77,7 @@ const TodoItem: React.FC<Props> = ({
             </span>
             <span
               className="icon"
+              aria-label="done"
               onClick={() => {
                 handleDone(todo.id)
               }}
